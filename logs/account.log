@@ -1,0 +1,283 @@
+2025-12-02 01:31:42.361 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.3.Final
+2025-12-02 01:31:42.402 [main] INFO  com.bank.account.AccountApplication - Starting AccountApplication using Java 17.0.6 with PID 3664 (C:\Users\Jeanso\Documents\NTT-PROYECTOS\Proyecto_final\account\target\classes started by Jeanso in C:\Users\Jeanso\Documents\NTT-PROYECTOS\Proyecto_final\account)
+2025-12-02 01:31:42.403 [main] DEBUG com.bank.account.AccountApplication - Running with Spring Boot v3.4.12, Spring v6.2.14
+2025-12-02 01:31:42.404 [main] INFO  com.bank.account.AccountApplication - No active profile set, falling back to 1 default profile: "default"
+2025-12-02 01:31:42.892 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive MongoDB repositories in DEFAULT mode.
+2025-12-02 01:31:42.985 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 87 ms. Found 1 Reactive MongoDB repository interface.
+2025-12-02 01:31:43.043 [main] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=71605256-3f2c-3e0b-8c5e-8386ab1c95e0
+2025-12-02 01:31:43.478 [main] INFO  org.mongodb.driver.client - MongoClient with metadata {"driver": {"name": "mongo-java-driver|reactive-streams|spring-boot", "version": "5.2.1"}, "os": {"type": "Windows", "name": "Windows 10", "architecture": "amd64", "version": "10.0"}, "platform": "Java/Oracle Corporation/17.0.6+9-LTS-190"} created with settings MongoClientSettings{readPreference=primary, writeConcern=WriteConcern{w=null, wTimeout=null ms, journal=null}, retryWrites=true, retryReads=true, readConcern=ReadConcern{level=null}, credential=null, transportSettings=NettyTransportSettings{eventLoopGroup=io.netty.channel.nio.NioEventLoopGroup@7742a45c, socketChannelClass=null, allocator=null, sslContext=null}, commandListeners=[], codecRegistry=ProvidersCodecRegistry{codecProviders=[ValueCodecProvider{}, BsonValueCodecProvider{}, DBRefCodecProvider{}, DBObjectCodecProvider{}, DocumentCodecProvider{}, CollectionCodecProvider{}, IterableCodecProvider{}, MapCodecProvider{}, GeoJsonCodecProvider{}, GridFSFileCodecProvider{}, Jsr310CodecProvider{}, JsonObjectCodecProvider{}, BsonCodecProvider{}, EnumCodecProvider{}, com.mongodb.client.model.mql.ExpressionCodecProvider@7ca492d9, com.mongodb.Jep395RecordCodecProvider@14fc9bd, com.mongodb.KotlinCodecProvider@7ed49a7f]}, loggerSettings=LoggerSettings{maxDocumentLength=1000}, clusterSettings={hosts=[localhost:27017], srvServiceName=mongodb, mode=SINGLE, requiredClusterType=UNKNOWN, requiredReplicaSetName='null', serverSelector='null', clusterListeners='[]', serverSelectionTimeout='30000 ms', localThreshold='15 ms'}, socketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=0, receiveBufferSize=0, proxySettings=ProxySettings{host=null, port=null, username=null, password=null}}, heartbeatSocketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=10000, receiveBufferSize=0, proxySettings=ProxySettings{host=null, port=null, username=null, password=null}}, connectionPoolSettings=ConnectionPoolSettings{maxSize=100, minSize=0, maxWaitTimeMS=120000, maxConnectionLifeTimeMS=0, maxConnectionIdleTimeMS=0, maintenanceInitialDelayMS=0, maintenanceFrequencyMS=60000, connectionPoolListeners=[], maxConnecting=2}, serverSettings=ServerSettings{heartbeatFrequencyMS=10000, minHeartbeatFrequencyMS=500, serverMonitoringMode=AUTO, serverListeners='[]', serverMonitorListeners='[]'}, sslSettings=SslSettings{enabled=false, invalidHostNameAllowed=false, context=null}, applicationName='null', compressorList=[], uuidRepresentation=JAVA_LEGACY, serverApi=null, autoEncryptionSettings=null, dnsClient=null, inetAddressResolver=null, contextProvider=null, timeoutMS=null}
+2025-12-02 01:31:43.565 [cluster-ClusterId{value='692e87cf66259c4bae50485d', description='null'}-localhost:27017] INFO  org.mongodb.driver.cluster - Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, cryptd=false, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=27, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=38318200, minRoundTripTimeNanos=0}
+2025-12-02 01:31:44.101 [main] INFO  o.s.b.w.e.netty.NettyWebServer - Netty started on port 8082 (http)
+2025-12-02 01:31:44.227 [main] INFO  com.bank.account.AccountApplication - Started AccountApplication in 2.333 seconds (process running for 2.775)
+2025-12-02 01:41:44.168 [reactor-http-nio-3] INFO  c.b.a.controller.AccountController - POST /api/accounts - Creating account for customer: 692e5e3f76612561df8ef485
+2025-12-02 01:41:44.168 [reactor-http-nio-3] DEBUG c.b.account.service.AccountService - Creating account for customer: 692e5e3f76612561df8ef485
+2025-12-02 01:41:44.168 [reactor-http-nio-3] DEBUG c.bank.account.client.CustomerClient - Calling Customer Service to get customer with id: 692e5e3f76612561df8ef485
+2025-12-02 01:41:44.609 [reactor-http-nio-3] DEBUG c.bank.account.client.CustomerClient - Customer found: 692e5e3f76612561df8ef485
+2025-12-02 01:41:44.609 [reactor-http-nio-3] DEBUG c.b.account.service.AccountService - Validating business rules for customer type: PERSONAL
+2025-12-02 01:41:44.620 [reactor-http-nio-3] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "customerId" : "692e5e3f76612561df8ef485", "accountType" : { "$java" : FIXED_TERM } }, Fields: {}, Sort: {}
+2025-12-02 01:41:44.632 [reactor-http-nio-3] DEBUG o.s.d.m.core.ReactiveMongoTemplate - Executing count: { "customerId" : "692e5e3f76612561df8ef485", "accountType" : "FIXED_TERM"} in collection: accounts
+2025-12-02 01:41:44.632 [reactor-http-nio-3] DEBUG o.s.d.m.core.ReactiveMongoTemplate - Executing count: { "customerId" : "692e5e3f76612561df8ef485", "accountType" : "FIXED_TERM"} in collection: accounts
+2025-12-02 01:41:44.708 [nioEventLoopGroup-3-3] DEBUG o.s.d.m.core.ReactiveMongoTemplate - Inserting Document containing fields: [accountNumber, accountType, customerId, balance, maintenanceFee, currentMonthTransactions, transactionDay, holders, authorizedSigners, createdAt, _class] in collection: accounts
+2025-12-02 01:41:45.447 [nioEventLoopGroup-3-3] INFO  c.b.account.service.AccountService - Account created successfully: ACC-8C0C96471F
+2025-12-02 01:42:13.018 [reactor-http-nio-3] INFO  c.b.a.controller.AccountController - POST /api/accounts - Creating account for customer: 692e5e3f76612561df8ef485
+2025-12-02 01:42:13.018 [reactor-http-nio-3] DEBUG c.b.account.service.AccountService - Creating account for customer: 692e5e3f76612561df8ef485
+2025-12-02 01:42:13.018 [reactor-http-nio-3] DEBUG c.bank.account.client.CustomerClient - Calling Customer Service to get customer with id: 692e5e3f76612561df8ef485
+2025-12-02 01:42:13.026 [reactor-http-nio-3] DEBUG c.bank.account.client.CustomerClient - Customer found: 692e5e3f76612561df8ef485
+2025-12-02 01:42:13.026 [reactor-http-nio-3] DEBUG c.b.account.service.AccountService - Validating business rules for customer type: PERSONAL
+2025-12-02 01:42:13.026 [reactor-http-nio-3] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "customerId" : "692e5e3f76612561df8ef485", "accountType" : { "$java" : FIXED_TERM } }, Fields: {}, Sort: {}
+2025-12-02 01:42:13.027 [reactor-http-nio-3] DEBUG o.s.d.m.core.ReactiveMongoTemplate - Executing count: { "customerId" : "692e5e3f76612561df8ef485", "accountType" : "FIXED_TERM"} in collection: accounts
+2025-12-02 01:42:13.027 [reactor-http-nio-3] DEBUG o.s.d.m.core.ReactiveMongoTemplate - Executing count: { "customerId" : "692e5e3f76612561df8ef485", "accountType" : "FIXED_TERM"} in collection: accounts
+2025-12-02 01:42:13.037 [nioEventLoopGroup-3-3] ERROR c.b.a.e.GlobalExceptionHandler - Business rule violation: Personal customer can only have one FIXED_TERM account
+2025-12-02 01:42:42.513 [reactor-http-nio-3] INFO  c.b.a.controller.AccountController - POST /api/accounts - Creating account for customer: 692e5e3f76612561df8ef485
+2025-12-02 01:42:42.513 [reactor-http-nio-3] DEBUG c.b.account.service.AccountService - Creating account for customer: 692e5e3f76612561df8ef485
+2025-12-02 01:42:42.513 [reactor-http-nio-3] DEBUG c.bank.account.client.CustomerClient - Calling Customer Service to get customer with id: 692e5e3f76612561df8ef485
+2025-12-02 01:42:42.519 [reactor-http-nio-3] DEBUG c.bank.account.client.CustomerClient - Customer found: 692e5e3f76612561df8ef485
+2025-12-02 01:42:42.519 [reactor-http-nio-3] DEBUG c.b.account.service.AccountService - Validating business rules for customer type: PERSONAL
+2025-12-02 01:42:42.519 [reactor-http-nio-3] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "customerId" : "692e5e3f76612561df8ef485", "accountType" : { "$java" : SAVING } }, Fields: {}, Sort: {}
+2025-12-02 01:42:42.520 [reactor-http-nio-3] DEBUG o.s.d.m.core.ReactiveMongoTemplate - Executing count: { "customerId" : "692e5e3f76612561df8ef485", "accountType" : "SAVING"} in collection: accounts
+2025-12-02 01:42:42.520 [reactor-http-nio-3] DEBUG o.s.d.m.core.ReactiveMongoTemplate - Executing count: { "customerId" : "692e5e3f76612561df8ef485", "accountType" : "SAVING"} in collection: accounts
+2025-12-02 01:42:42.523 [nioEventLoopGroup-3-3] DEBUG o.s.d.m.core.ReactiveMongoTemplate - Inserting Document containing fields: [accountNumber, accountType, customerId, balance, maintenanceFee, maxMonthlyTransactions, currentMonthTransactions, transactionDay, holders, authorizedSigners, createdAt, _class] in collection: accounts
+2025-12-02 01:42:42.524 [nioEventLoopGroup-3-3] INFO  c.b.account.service.AccountService - Account created successfully: ACC-0991F0C09E
+2025-12-02 01:45:48.719 [reactor-http-nio-5] INFO  c.b.a.controller.AccountController - POST /api/accounts - Creating account for customer: 692e5e3f76612561df8ef485
+2025-12-02 01:45:48.719 [reactor-http-nio-5] DEBUG c.b.account.service.AccountService - Creating account for customer: 692e5e3f76612561df8ef485
+2025-12-02 01:45:48.719 [reactor-http-nio-5] DEBUG c.bank.account.client.CustomerClient - Calling Customer Service to get customer with id: 692e5e3f76612561df8ef485
+2025-12-02 01:45:48.725 [reactor-http-nio-3] DEBUG c.bank.account.client.CustomerClient - Customer found: 692e5e3f76612561df8ef485
+2025-12-02 01:45:48.725 [reactor-http-nio-3] DEBUG c.b.account.service.AccountService - Validating business rules for customer type: PERSONAL
+2025-12-02 01:45:48.726 [reactor-http-nio-3] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "customerId" : "692e5e3f76612561df8ef485", "accountType" : { "$java" : CHECKING } }, Fields: {}, Sort: {}
+2025-12-02 01:45:48.726 [reactor-http-nio-3] DEBUG o.s.d.m.core.ReactiveMongoTemplate - Executing count: { "customerId" : "692e5e3f76612561df8ef485", "accountType" : "CHECKING"} in collection: accounts
+2025-12-02 01:45:48.726 [reactor-http-nio-3] DEBUG o.s.d.m.core.ReactiveMongoTemplate - Executing count: { "customerId" : "692e5e3f76612561df8ef485", "accountType" : "CHECKING"} in collection: accounts
+2025-12-02 01:45:48.728 [nioEventLoopGroup-3-3] DEBUG o.s.d.m.core.ReactiveMongoTemplate - Inserting Document containing fields: [accountNumber, accountType, customerId, balance, maintenanceFee, currentMonthTransactions, holders, authorizedSigners, createdAt, _class] in collection: accounts
+2025-12-02 01:45:48.730 [nioEventLoopGroup-3-3] INFO  c.b.account.service.AccountService - Account created successfully: ACC-4E164CD2C0
+2025-12-02 01:48:33.437 [reactor-http-nio-7] INFO  c.b.a.controller.AccountController - POST /api/accounts - Creating account for customer: 692e5e5076612561df8ef486
+2025-12-02 01:48:33.437 [reactor-http-nio-7] DEBUG c.b.account.service.AccountService - Creating account for customer: 692e5e5076612561df8ef486
+2025-12-02 01:48:33.437 [reactor-http-nio-7] DEBUG c.bank.account.client.CustomerClient - Calling Customer Service to get customer with id: 692e5e5076612561df8ef486
+2025-12-02 01:48:33.444 [reactor-http-nio-3] DEBUG c.bank.account.client.CustomerClient - Customer found: 692e5e5076612561df8ef486
+2025-12-02 01:48:33.444 [reactor-http-nio-3] DEBUG c.b.account.service.AccountService - Validating business rules for customer type: BUSINESS
+2025-12-02 01:48:33.445 [reactor-http-nio-3] DEBUG o.s.d.m.core.ReactiveMongoTemplate - Inserting Document containing fields: [accountNumber, accountType, customerId, balance, maintenanceFee, currentMonthTransactions, holders, authorizedSigners, createdAt, _class] in collection: accounts
+2025-12-02 01:48:33.446 [nioEventLoopGroup-3-3] INFO  c.b.account.service.AccountService - Account created successfully: ACC-93F2A10198
+2025-12-02 01:48:38.944 [reactor-http-nio-7] INFO  c.b.a.controller.AccountController - GET /api/accounts - Fetching all accounts
+2025-12-02 01:48:38.944 [reactor-http-nio-7] DEBUG c.b.account.service.AccountService - Finding all accounts
+2025-12-02 01:48:38.947 [reactor-http-nio-7] DEBUG o.s.d.m.core.ReactiveMongoTemplate - find using query: {} fields: Document{{}} for class: class com.bank.account.model.entity.Account in collection: accounts
+2025-12-02 01:48:38.974 [reactor-http-nio-7] DEBUG c.b.account.service.AccountService - Retrieved all accounts
+2025-12-02 01:48:59.742 [reactor-http-nio-7] INFO  c.b.a.controller.AccountController - GET /api/accounts/692e8a6266259c4bae50485f - Fetching account by id
+2025-12-02 01:48:59.742 [reactor-http-nio-7] DEBUG c.b.account.service.AccountService - Finding account by id: 692e8a6266259c4bae50485f
+2025-12-02 01:48:59.743 [reactor-http-nio-7] DEBUG o.s.d.m.core.ReactiveMongoTemplate - findOne using query: { "id" : "692e8a6266259c4bae50485f"} fields: Document{{}} for class: class com.bank.account.model.entity.Account in collection: accounts
+2025-12-02 01:48:59.747 [nioEventLoopGroup-3-3] DEBUG c.b.account.service.AccountService - Account found with id: 692e8a6266259c4bae50485f
+2025-12-02 01:49:24.447 [reactor-http-nio-7] INFO  c.b.a.controller.AccountController - GET /api/accounts/number/ACC-93F2A10198 - Fetching account by number
+2025-12-02 01:49:24.447 [reactor-http-nio-7] DEBUG c.b.account.service.AccountService - Finding account by account number: ACC-93F2A10198
+2025-12-02 01:49:24.448 [reactor-http-nio-7] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "accountNumber" : "ACC-93F2A10198"}, Fields: {}, Sort: {}
+2025-12-02 01:49:24.449 [reactor-http-nio-7] DEBUG o.s.d.m.core.ReactiveMongoTemplate - find using query: { "accountNumber" : "ACC-93F2A10198"} fields: Document{{}} for class: class com.bank.account.model.entity.Account in collection: accounts
+2025-12-02 01:49:24.452 [nioEventLoopGroup-3-3] DEBUG c.b.account.service.AccountService - Account found with number: ACC-93F2A10198
+2025-12-02 01:49:43.140 [reactor-http-nio-7] INFO  c.b.a.controller.AccountController - GET /api/accounts/customer/692e5e3f76612561df8ef485 - Fetching accounts for customer
+2025-12-02 01:49:43.140 [reactor-http-nio-7] DEBUG c.b.account.service.AccountService - Finding accounts for customer: 692e5e3f76612561df8ef485
+2025-12-02 01:49:43.141 [reactor-http-nio-7] DEBUG o.s.d.m.r.query.MongoQueryCreator - Created query Query: { "customerId" : "692e5e3f76612561df8ef485"}, Fields: {}, Sort: {}
+2025-12-02 01:49:43.142 [reactor-http-nio-7] DEBUG o.s.d.m.core.ReactiveMongoTemplate - find using query: { "customerId" : "692e5e3f76612561df8ef485"} fields: Document{{}} for class: class com.bank.account.model.entity.Account in collection: accounts
+2025-12-02 01:49:43.145 [nioEventLoopGroup-3-3] DEBUG c.b.account.service.AccountService - Retrieved accounts for customer: 692e5e3f76612561df8ef485
+2025-12-02 02:03:00.602 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.netty.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-02 02:03:00.604 [netty-shutdown] INFO  o.s.b.w.e.netty.GracefulShutdown - Graceful shutdown complete
+2025-12-02 02:22:00.422 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.3.Final
+2025-12-02 02:22:00.470 [main] INFO  com.bank.account.AccountApplication - Starting AccountApplication using Java 17.0.6 with PID 17624 (C:\Users\Jeanso\Documents\NTT-PROYECTOS\Proyecto_final\account\target\classes started by Jeanso in C:\Users\Jeanso\Documents\NTT-PROYECTOS\Proyecto_final\account)
+2025-12-02 02:22:00.471 [main] DEBUG com.bank.account.AccountApplication - Running with Spring Boot v3.4.12, Spring v6.2.14
+2025-12-02 02:22:00.471 [main] INFO  com.bank.account.AccountApplication - No active profile set, falling back to 1 default profile: "default"
+2025-12-02 02:22:00.923 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive MongoDB repositories in DEFAULT mode.
+2025-12-02 02:22:01.038 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 109 ms. Found 1 Reactive MongoDB repository interface.
+2025-12-02 02:22:01.108 [main] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=71605256-3f2c-3e0b-8c5e-8386ab1c95e0
+2025-12-02 02:22:01.559 [main] INFO  org.mongodb.driver.client - MongoClient with metadata {"driver": {"name": "mongo-java-driver|reactive-streams|spring-boot", "version": "5.2.1"}, "os": {"type": "Windows", "name": "Windows 10", "architecture": "amd64", "version": "10.0"}, "platform": "Java/Oracle Corporation/17.0.6+9-LTS-190"} created with settings MongoClientSettings{readPreference=primary, writeConcern=WriteConcern{w=null, wTimeout=null ms, journal=null}, retryWrites=true, retryReads=true, readConcern=ReadConcern{level=null}, credential=null, transportSettings=NettyTransportSettings{eventLoopGroup=io.netty.channel.nio.NioEventLoopGroup@14fc9bd, socketChannelClass=null, allocator=null, sslContext=null}, commandListeners=[], codecRegistry=ProvidersCodecRegistry{codecProviders=[ValueCodecProvider{}, BsonValueCodecProvider{}, DBRefCodecProvider{}, DBObjectCodecProvider{}, DocumentCodecProvider{}, CollectionCodecProvider{}, IterableCodecProvider{}, MapCodecProvider{}, GeoJsonCodecProvider{}, GridFSFileCodecProvider{}, Jsr310CodecProvider{}, JsonObjectCodecProvider{}, BsonCodecProvider{}, EnumCodecProvider{}, com.mongodb.client.model.mql.ExpressionCodecProvider@7ed49a7f, com.mongodb.Jep395RecordCodecProvider@1cd6b1bd, com.mongodb.KotlinCodecProvider@443cdaa4]}, loggerSettings=LoggerSettings{maxDocumentLength=1000}, clusterSettings={hosts=[localhost:27017], srvServiceName=mongodb, mode=SINGLE, requiredClusterType=UNKNOWN, requiredReplicaSetName='null', serverSelector='null', clusterListeners='[]', serverSelectionTimeout='30000 ms', localThreshold='15 ms'}, socketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=0, receiveBufferSize=0, proxySettings=ProxySettings{host=null, port=null, username=null, password=null}}, heartbeatSocketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=10000, receiveBufferSize=0, proxySettings=ProxySettings{host=null, port=null, username=null, password=null}}, connectionPoolSettings=ConnectionPoolSettings{maxSize=100, minSize=0, maxWaitTimeMS=120000, maxConnectionLifeTimeMS=0, maxConnectionIdleTimeMS=0, maintenanceInitialDelayMS=0, maintenanceFrequencyMS=60000, connectionPoolListeners=[], maxConnecting=2}, serverSettings=ServerSettings{heartbeatFrequencyMS=10000, minHeartbeatFrequencyMS=500, serverMonitoringMode=AUTO, serverListeners='[]', serverMonitorListeners='[]'}, sslSettings=SslSettings{enabled=false, invalidHostNameAllowed=false, context=null}, applicationName='null', compressorList=[], uuidRepresentation=JAVA_LEGACY, serverApi=null, autoEncryptionSettings=null, dnsClient=null, inetAddressResolver=null, contextProvider=null, timeoutMS=null}
+2025-12-02 02:22:01.647 [cluster-ClusterId{value='692e93999077d44caf35b0b6', description='null'}-localhost:27017] INFO  org.mongodb.driver.cluster - Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, cryptd=false, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=27, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=36088600, minRoundTripTimeNanos=0}
+2025-12-02 02:22:02.206 [main] INFO  o.s.b.w.e.netty.NettyWebServer - Netty started on port 8082 (http)
+2025-12-02 02:22:02.396 [main] INFO  com.bank.account.AccountApplication - Started AccountApplication in 2.465 seconds (process running for 2.866)
+2025-12-02 03:14:46.838 [reactor-http-nio-2] INFO  c.b.a.controller.AccountController - GET /api/accounts/692e8a6266259c4bae50485f - Fetching account by id
+2025-12-02 03:14:46.838 [reactor-http-nio-2] DEBUG c.b.account.service.AccountService - Finding account by id: 692e8a6266259c4bae50485f
+2025-12-02 03:14:46.849 [reactor-http-nio-2] DEBUG o.s.d.m.core.ReactiveMongoTemplate - findOne using query: { "id" : "692e8a6266259c4bae50485f"} fields: Document{{}} for class: class com.bank.account.model.entity.Account in collection: accounts
+2025-12-02 03:14:46.930 [nioEventLoopGroup-3-3] DEBUG c.b.account.service.AccountService - Account found with id: 692e8a6266259c4bae50485f
+2025-12-02 03:15:40.937 [reactor-http-nio-2] INFO  c.b.a.controller.AccountController - GET /api/accounts/692e8a6266259c4bae50485f - Fetching account by id
+2025-12-02 03:15:40.937 [reactor-http-nio-2] DEBUG c.b.account.service.AccountService - Finding account by id: 692e8a6266259c4bae50485f
+2025-12-02 03:15:40.938 [reactor-http-nio-2] DEBUG o.s.d.m.core.ReactiveMongoTemplate - findOne using query: { "id" : "692e8a6266259c4bae50485f"} fields: Document{{}} for class: class com.bank.account.model.entity.Account in collection: accounts
+2025-12-02 03:15:40.940 [nioEventLoopGroup-3-3] DEBUG c.b.account.service.AccountService - Account found with id: 692e8a6266259c4bae50485f
+2025-12-02 03:18:44.580 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.netty.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-02 03:18:44.581 [netty-shutdown] INFO  o.s.b.w.e.netty.GracefulShutdown - Graceful shutdown complete
+2025-12-02 03:18:47.562 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.3.Final
+2025-12-02 03:18:47.605 [main] INFO  com.bank.account.AccountApplication - Starting AccountApplication using Java 17.0.6 with PID 4412 (C:\Users\Jeanso\Documents\NTT-PROYECTOS\Proyecto_final\account\target\classes started by Jeanso in C:\Users\Jeanso\Documents\NTT-PROYECTOS\Proyecto_final\account)
+2025-12-02 03:18:47.606 [main] DEBUG com.bank.account.AccountApplication - Running with Spring Boot v3.4.12, Spring v6.2.14
+2025-12-02 03:18:47.607 [main] INFO  com.bank.account.AccountApplication - No active profile set, falling back to 1 default profile: "default"
+2025-12-02 03:18:48.120 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive MongoDB repositories in DEFAULT mode.
+2025-12-02 03:18:48.240 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 112 ms. Found 1 Reactive MongoDB repository interface.
+2025-12-02 03:18:48.308 [main] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=71605256-3f2c-3e0b-8c5e-8386ab1c95e0
+2025-12-02 03:18:48.795 [main] INFO  org.mongodb.driver.client - MongoClient with metadata {"driver": {"name": "mongo-java-driver|reactive-streams|spring-boot", "version": "5.2.1"}, "os": {"type": "Windows", "name": "Windows 10", "architecture": "amd64", "version": "10.0"}, "platform": "Java/Oracle Corporation/17.0.6+9-LTS-190"} created with settings MongoClientSettings{readPreference=primary, writeConcern=WriteConcern{w=null, wTimeout=null ms, journal=null}, retryWrites=true, retryReads=true, readConcern=ReadConcern{level=null}, credential=null, transportSettings=NettyTransportSettings{eventLoopGroup=io.netty.channel.nio.NioEventLoopGroup@5785e813, socketChannelClass=null, allocator=null, sslContext=null}, commandListeners=[], codecRegistry=ProvidersCodecRegistry{codecProviders=[ValueCodecProvider{}, BsonValueCodecProvider{}, DBRefCodecProvider{}, DBObjectCodecProvider{}, DocumentCodecProvider{}, CollectionCodecProvider{}, IterableCodecProvider{}, MapCodecProvider{}, GeoJsonCodecProvider{}, GridFSFileCodecProvider{}, Jsr310CodecProvider{}, JsonObjectCodecProvider{}, BsonCodecProvider{}, EnumCodecProvider{}, com.mongodb.client.model.mql.ExpressionCodecProvider@10b8b900, com.mongodb.Jep395RecordCodecProvider@6d294ddc, com.mongodb.KotlinCodecProvider@2801827a]}, loggerSettings=LoggerSettings{maxDocumentLength=1000}, clusterSettings={hosts=[localhost:27017], srvServiceName=mongodb, mode=SINGLE, requiredClusterType=UNKNOWN, requiredReplicaSetName='null', serverSelector='null', clusterListeners='[]', serverSelectionTimeout='30000 ms', localThreshold='15 ms'}, socketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=0, receiveBufferSize=0, proxySettings=ProxySettings{host=null, port=null, username=null, password=null}}, heartbeatSocketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=10000, receiveBufferSize=0, proxySettings=ProxySettings{host=null, port=null, username=null, password=null}}, connectionPoolSettings=ConnectionPoolSettings{maxSize=100, minSize=0, maxWaitTimeMS=120000, maxConnectionLifeTimeMS=0, maxConnectionIdleTimeMS=0, maintenanceInitialDelayMS=0, maintenanceFrequencyMS=60000, connectionPoolListeners=[], maxConnecting=2}, serverSettings=ServerSettings{heartbeatFrequencyMS=10000, minHeartbeatFrequencyMS=500, serverMonitoringMode=AUTO, serverListeners='[]', serverMonitorListeners='[]'}, sslSettings=SslSettings{enabled=false, invalidHostNameAllowed=false, context=null}, applicationName='null', compressorList=[], uuidRepresentation=JAVA_LEGACY, serverApi=null, autoEncryptionSettings=null, dnsClient=null, inetAddressResolver=null, contextProvider=null, timeoutMS=null}
+2025-12-02 03:18:48.887 [cluster-ClusterId{value='692ea0e801c0442bca07c92f', description='null'}-localhost:27017] INFO  org.mongodb.driver.cluster - Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, cryptd=false, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=27, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=45169100, minRoundTripTimeNanos=0}
+2025-12-02 03:18:49.474 [main] INFO  o.s.b.w.e.netty.NettyWebServer - Netty started on port 8082 (http)
+2025-12-02 03:18:49.603 [main] INFO  com.bank.account.AccountApplication - Started AccountApplication in 2.642 seconds (process running for 3.478)
+2025-12-02 03:19:07.498 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.netty.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-02 03:19:07.500 [netty-shutdown] INFO  o.s.b.w.e.netty.GracefulShutdown - Graceful shutdown complete
+2025-12-02 11:26:38.138 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.3.Final
+2025-12-02 11:26:38.183 [main] INFO  com.bank.account.AccountApplication - Starting AccountApplication using Java 17.0.6 with PID 20208 (C:\Users\Jeanso\Documents\NTT-PROYECTOS\Proyecto_final\account\target\classes started by Jeanso in C:\Users\Jeanso\Documents\NTT-PROYECTOS\Proyecto_final\account)
+2025-12-02 11:26:38.183 [main] DEBUG com.bank.account.AccountApplication - Running with Spring Boot v3.4.12, Spring v6.2.14
+2025-12-02 11:26:38.184 [main] INFO  com.bank.account.AccountApplication - No active profile set, falling back to 1 default profile: "default"
+2025-12-02 11:26:38.219 [main] INFO  o.s.c.c.c.ConfigServerConfigDataLoader - Fetching config from server at : http://localhost:8888
+2025-12-02 11:26:38.219 [main] INFO  o.s.c.c.c.ConfigServerConfigDataLoader - Located environment: name=application, profiles=[default], label=null, version=null, state=null
+2025-12-02 11:26:38.765 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive MongoDB repositories in DEFAULT mode.
+2025-12-02 11:26:38.948 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 176 ms. Found 1 Reactive MongoDB repository interface.
+2025-12-02 11:26:39.025 [main] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=998013f2-04b8-3f66-8787-96f25950dfcb
+2025-12-02 11:26:39.293 [main] WARN  o.s.b.w.r.c.AnnotationConfigReactiveWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'customerClient' defined in file [C:\Users\Jeanso\Documents\NTT-PROYECTOS\Proyecto_final\account\target\classes\com\bank\account\client\CustomerClient.class]: Unexpected exception during bean creation
+2025-12-02 11:26:39.300 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-12-02 11:26:39.318 [main] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'customerClient' defined in file [C:\Users\Jeanso\Documents\NTT-PROYECTOS\Proyecto_final\account\target\classes\com\bank\account\client\CustomerClient.class]: Unexpected exception during bean creation
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.instantiateSingleton(DefaultListableBeanFactory.java:1228)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingleton(DefaultListableBeanFactory.java:1194)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:1130)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:990)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627)
+	at org.springframework.boot.web.reactive.context.ReactiveWebServerApplicationContext.refresh(ReactiveWebServerApplicationContext.java:66)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
+	at com.bank.account.AccountApplication.main(AccountApplication.java:14)
+Caused by: org.springframework.util.PlaceholderResolutionException: Could not resolve placeholder 'customer.service.url' in value "${customer.service.url}"
+	at org.springframework.util.PlaceholderResolutionException.withValue(PlaceholderResolutionException.java:81)
+	at org.springframework.util.PlaceholderParser$ParsedValue.resolve(PlaceholderParser.java:298)
+	at org.springframework.util.PlaceholderParser.replacePlaceholders(PlaceholderParser.java:131)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:114)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:293)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:264)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.lambda$processProperties$0(PropertySourcesPlaceholderConfigurer.java:186)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:970)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1675)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1653)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1395)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1232)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:569)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
+	... 16 common frames omitted
+2025-12-02 11:26:59.423 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.3.Final
+2025-12-02 11:26:59.453 [main] INFO  com.bank.account.AccountApplication - Starting AccountApplication using Java 17.0.6 with PID 13544 (C:\Users\Jeanso\Documents\NTT-PROYECTOS\Proyecto_final\account\target\classes started by Jeanso in C:\Users\Jeanso\Documents\NTT-PROYECTOS\Proyecto_final\account)
+2025-12-02 11:26:59.453 [main] DEBUG com.bank.account.AccountApplication - Running with Spring Boot v3.4.12, Spring v6.2.14
+2025-12-02 11:26:59.454 [main] INFO  com.bank.account.AccountApplication - No active profile set, falling back to 1 default profile: "default"
+2025-12-02 11:26:59.479 [main] INFO  o.s.c.c.c.ConfigServerConfigDataLoader - Fetching config from server at : http://localhost:8888
+2025-12-02 11:26:59.480 [main] INFO  o.s.c.c.c.ConfigServerConfigDataLoader - Located environment: name=application, profiles=[default], label=null, version=null, state=null
+2025-12-02 11:26:59.841 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive MongoDB repositories in DEFAULT mode.
+2025-12-02 11:26:59.931 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 84 ms. Found 1 Reactive MongoDB repository interface.
+2025-12-02 11:26:59.989 [main] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=998013f2-04b8-3f66-8787-96f25950dfcb
+2025-12-02 11:27:00.162 [main] WARN  o.s.b.w.r.c.AnnotationConfigReactiveWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'customerClient' defined in file [C:\Users\Jeanso\Documents\NTT-PROYECTOS\Proyecto_final\account\target\classes\com\bank\account\client\CustomerClient.class]: Unexpected exception during bean creation
+2025-12-02 11:27:00.169 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-12-02 11:27:00.180 [main] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'customerClient' defined in file [C:\Users\Jeanso\Documents\NTT-PROYECTOS\Proyecto_final\account\target\classes\com\bank\account\client\CustomerClient.class]: Unexpected exception during bean creation
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.instantiateSingleton(DefaultListableBeanFactory.java:1228)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingleton(DefaultListableBeanFactory.java:1194)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:1130)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:990)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627)
+	at org.springframework.boot.web.reactive.context.ReactiveWebServerApplicationContext.refresh(ReactiveWebServerApplicationContext.java:66)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
+	at com.bank.account.AccountApplication.main(AccountApplication.java:14)
+Caused by: org.springframework.util.PlaceholderResolutionException: Could not resolve placeholder 'customer.service.url' in value "${customer.service.url}"
+	at org.springframework.util.PlaceholderResolutionException.withValue(PlaceholderResolutionException.java:81)
+	at org.springframework.util.PlaceholderParser$ParsedValue.resolve(PlaceholderParser.java:298)
+	at org.springframework.util.PlaceholderParser.replacePlaceholders(PlaceholderParser.java:131)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:114)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:293)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:264)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.lambda$processProperties$0(PropertySourcesPlaceholderConfigurer.java:186)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:970)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1675)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1653)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1395)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1232)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:569)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
+	... 16 common frames omitted
+2025-12-02 11:37:02.657 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.3.Final
+2025-12-02 11:37:02.691 [main] INFO  com.bank.account.AccountApplication - Starting AccountApplication using Java 17.0.6 with PID 1260 (C:\Users\Jeanso\Documents\NTT-PROYECTOS\Proyecto_final\account\target\classes started by Jeanso in C:\Users\Jeanso\Documents\NTT-PROYECTOS\Proyecto_final\account)
+2025-12-02 11:37:02.692 [main] DEBUG com.bank.account.AccountApplication - Running with Spring Boot v3.4.12, Spring v6.2.14
+2025-12-02 11:37:02.693 [main] INFO  com.bank.account.AccountApplication - No active profile set, falling back to 1 default profile: "default"
+2025-12-02 11:37:02.720 [main] INFO  o.s.c.c.c.ConfigServerConfigDataLoader - Fetching config from server at : http://localhost:8888
+2025-12-02 11:37:02.720 [main] INFO  o.s.c.c.c.ConfigServerConfigDataLoader - Located environment: name=application, profiles=[default], label=null, version=null, state=null
+2025-12-02 11:37:03.086 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive MongoDB repositories in DEFAULT mode.
+2025-12-02 11:37:03.179 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 88 ms. Found 1 Reactive MongoDB repository interface.
+2025-12-02 11:37:03.238 [main] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=998013f2-04b8-3f66-8787-96f25950dfcb
+2025-12-02 11:37:03.392 [main] WARN  o.s.b.w.r.c.AnnotationConfigReactiveWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'customerClient' defined in file [C:\Users\Jeanso\Documents\NTT-PROYECTOS\Proyecto_final\account\target\classes\com\bank\account\client\CustomerClient.class]: Unexpected exception during bean creation
+2025-12-02 11:37:03.400 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-12-02 11:37:03.412 [main] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'customerClient' defined in file [C:\Users\Jeanso\Documents\NTT-PROYECTOS\Proyecto_final\account\target\classes\com\bank\account\client\CustomerClient.class]: Unexpected exception during bean creation
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.instantiateSingleton(DefaultListableBeanFactory.java:1228)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingleton(DefaultListableBeanFactory.java:1194)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:1130)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:990)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627)
+	at org.springframework.boot.web.reactive.context.ReactiveWebServerApplicationContext.refresh(ReactiveWebServerApplicationContext.java:66)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
+	at com.bank.account.AccountApplication.main(AccountApplication.java:14)
+Caused by: org.springframework.util.PlaceholderResolutionException: Could not resolve placeholder 'customer.service.url' in value "${customer.service.url}"
+	at org.springframework.util.PlaceholderResolutionException.withValue(PlaceholderResolutionException.java:81)
+	at org.springframework.util.PlaceholderParser$ParsedValue.resolve(PlaceholderParser.java:298)
+	at org.springframework.util.PlaceholderParser.replacePlaceholders(PlaceholderParser.java:131)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:114)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:293)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:264)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.lambda$processProperties$0(PropertySourcesPlaceholderConfigurer.java:186)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:970)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1675)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1653)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1395)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1232)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:569)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
+	... 16 common frames omitted
+2025-12-02 12:08:35.009 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.3.Final
+2025-12-02 12:08:35.048 [main] INFO  com.bank.account.AccountApplication - Starting AccountApplication using Java 17.0.6 with PID 6584 (C:\Users\Jeanso\Documents\NTT-PROYECTOS\Proyecto_final\account\target\classes started by Jeanso in C:\Users\Jeanso\Documents\NTT-PROYECTOS\Proyecto_final\account)
+2025-12-02 12:08:35.049 [main] DEBUG com.bank.account.AccountApplication - Running with Spring Boot v3.4.12, Spring v6.2.14
+2025-12-02 12:08:35.050 [main] INFO  com.bank.account.AccountApplication - No active profile set, falling back to 1 default profile: "default"
+2025-12-02 12:08:35.080 [main] INFO  o.s.c.c.c.ConfigServerConfigDataLoader - Fetching config from server at : http://localhost:8888
+2025-12-02 12:08:35.080 [main] INFO  o.s.c.c.c.ConfigServerConfigDataLoader - Located environment: name=account, profiles=[default], label=null, version=null, state=null
+2025-12-02 12:08:35.466 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive MongoDB repositories in DEFAULT mode.
+2025-12-02 12:08:35.552 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 81 ms. Found 1 Reactive MongoDB repository interface.
+2025-12-02 12:08:35.604 [main] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=998013f2-04b8-3f66-8787-96f25950dfcb
+2025-12-02 12:08:36.140 [main] INFO  org.mongodb.driver.client - MongoClient with metadata {"driver": {"name": "mongo-java-driver|reactive-streams|spring-boot", "version": "5.2.1"}, "os": {"type": "Windows", "name": "Windows 10", "architecture": "amd64", "version": "10.0"}, "platform": "Java/Oracle Corporation/17.0.6+9-LTS-190"} created with settings MongoClientSettings{readPreference=primary, writeConcern=WriteConcern{w=null, wTimeout=null ms, journal=null}, retryWrites=true, retryReads=true, readConcern=ReadConcern{level=null}, credential=null, transportSettings=NettyTransportSettings{eventLoopGroup=io.netty.channel.nio.NioEventLoopGroup@362a561e, socketChannelClass=null, allocator=null, sslContext=null}, commandListeners=[], codecRegistry=ProvidersCodecRegistry{codecProviders=[ValueCodecProvider{}, BsonValueCodecProvider{}, DBRefCodecProvider{}, DBObjectCodecProvider{}, DocumentCodecProvider{}, CollectionCodecProvider{}, IterableCodecProvider{}, MapCodecProvider{}, GeoJsonCodecProvider{}, GridFSFileCodecProvider{}, Jsr310CodecProvider{}, JsonObjectCodecProvider{}, BsonCodecProvider{}, EnumCodecProvider{}, com.mongodb.client.model.mql.ExpressionCodecProvider@2df3545d, com.mongodb.Jep395RecordCodecProvider@75ad30c1, com.mongodb.KotlinCodecProvider@fe8aaeb]}, loggerSettings=LoggerSettings{maxDocumentLength=1000}, clusterSettings={hosts=[localhost:27017], srvServiceName=mongodb, mode=SINGLE, requiredClusterType=UNKNOWN, requiredReplicaSetName='null', serverSelector='null', clusterListeners='[]', serverSelectionTimeout='30000 ms', localThreshold='15 ms'}, socketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=0, receiveBufferSize=0, proxySettings=ProxySettings{host=null, port=null, username=null, password=null}}, heartbeatSocketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=10000, receiveBufferSize=0, proxySettings=ProxySettings{host=null, port=null, username=null, password=null}}, connectionPoolSettings=ConnectionPoolSettings{maxSize=100, minSize=0, maxWaitTimeMS=120000, maxConnectionLifeTimeMS=0, maxConnectionIdleTimeMS=0, maintenanceInitialDelayMS=0, maintenanceFrequencyMS=60000, connectionPoolListeners=[], maxConnecting=2}, serverSettings=ServerSettings{heartbeatFrequencyMS=10000, minHeartbeatFrequencyMS=500, serverMonitoringMode=AUTO, serverListeners='[]', serverMonitorListeners='[]'}, sslSettings=SslSettings{enabled=false, invalidHostNameAllowed=false, context=null}, applicationName='null', compressorList=[], uuidRepresentation=JAVA_LEGACY, serverApi=null, autoEncryptionSettings=null, dnsClient=null, inetAddressResolver=null, contextProvider=null, timeoutMS=null}
+2025-12-02 12:08:36.221 [cluster-ClusterId{value='692f1d148956177ee00b89d2', description='null'}-localhost:27017] INFO  org.mongodb.driver.cluster - Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, cryptd=false, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=27, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=36654900, minRoundTripTimeNanos=0}
+2025-12-02 12:08:36.908 [main] INFO  o.s.b.w.e.netty.NettyWebServer - Netty started on port 8082 (http)
+2025-12-02 12:08:37.060 [main] INFO  com.bank.account.AccountApplication - Started AccountApplication in 2.784 seconds (process running for 3.167)
+2025-12-02 12:42:46.754 [reactor-http-nio-3] INFO  c.b.a.controller.AccountController - GET /api/accounts - Fetching all accounts
+2025-12-02 12:42:46.755 [reactor-http-nio-3] DEBUG c.b.account.service.AccountService - Finding all accounts
+2025-12-02 12:42:46.764 [reactor-http-nio-3] DEBUG o.s.d.m.core.ReactiveMongoTemplate - find using query: {} fields: Document{{}} for class: class com.bank.account.model.entity.Account in collection: accounts
+2025-12-02 12:42:46.881 [reactor-http-nio-3] DEBUG c.b.account.service.AccountService - Retrieved all accounts
+2025-12-02 13:02:28.354 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.netty.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-02 13:02:28.356 [netty-shutdown] INFO  o.s.b.w.e.netty.GracefulShutdown - Graceful shutdown complete

@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: account
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8888
+      fail-fast: true
+  config:
+    import: "optional:configserver:"

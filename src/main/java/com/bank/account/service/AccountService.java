@@ -1,0 +1,216 @@
+package com.bank.account.service;
+
+import com.bank.account.client.CustomerClient;
+import com.bank.account.exception.AccountNotFoundException;
+import com.bank.account.exception.BusinessRuleException;
+import com.bank.account.exception.CustomerNotFoundException;
+import com.bank.account.mapper.AccountMapper;
+import com.bank.account.model.dto.AccountRequest;
+import com.bank.account.model.dto.AccountResponse;
+import com.bank.account.model.dto.CustomerResponse;
+import com.bank.account.model.entity.Account;
+import com.bank.account.model.enums.AccountType;
+import com.bank.account.model.enums.CustomerType;
+import com.bank.account.repository.AccountRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+/**
+ * Service layer for Account operations
+ * Implements business logic and rules for account management
+ */
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class AccountService {
+
+    private final AccountRepository accountRepository;
+    private final AccountMapper accountMapper;
+    private final CustomerClient customerClient;
+
+    /**
+     * Create a new account with business rule validations
+     * @param request the account request
+     * @return Mono of AccountResponse
+     */
+    public Mono<AccountResponse> create(AccountRequest request) {
+        log.debug("Creating account for customer: {}", request.getCustomerId());
+
+        return customerClient.getCustomerById(request.getCustomerId())
+                .switchIfEmpty(Mono.error(new CustomerNotFoundException(request.getCustomerId())))
+                .flatMap(customer -> validateBusinessRules(request, customer))
+                .map(accountMapper::toEntity)
+                .flatMap(account -> applyAccountTypeDefaults(account))
+                .flatMap(accountRepository::save)
+                .doOnSuccess(account -> log.info("Account created successfully: {}", account.getAccountNumber()))
+                .map(accountMapper::toResponse);
+    }
+
+    /**
+     * Validate business rules for account creation
+     */
+    private Mono<AccountRequest> validateBusinessRules(AccountRequest request, CustomerResponse customer) {
+        log.debug("Validating business rules for customer type: {}", customer.getCustomerType());
+
+        if (customer.getCustomerType() == CustomerType.PERSONAL) {
+            return validatePersonalCustomerRules(request, customer);
+        } else {
+            return validateBusinessCustomerRules(request, customer);
+        }
+    }
+
+    /**
+     * Validate rules for PERSONAL customers
+     * - Can have maximum one account of each type (SAVING, CHECKING, FIXED_TERM)
+     */
+    private Mono<AccountRequest> validatePersonalCustomerRules(AccountRequest request, CustomerResponse customer) {
+        return accountRepository.countByCustomerIdAndAccountType(customer.getId(), request.getAccountType())
+                .flatMap(count -> {
+                    if (count > 0) {
+                        return Mono.error(new BusinessRuleException(
+                                String.format("Personal customer can only have one %s account", request.getAccountType())));
+                    }
+
+                    // Personal customers cannot have holders or signers
+                    if ((request.getHolders() != null && !request.getHolders().isEmpty()) ||
+                            (request.getAuthorizedSigners() != null && !request.getAuthorizedSigners().isEmpty())) {
+                        return Mono.error(new BusinessRuleException(
+                                "Personal customer accounts cannot have additional holders or signers"));
+                    }
+
+                    return Mono.just(request);
+                });
+    }
+
+    /**
+     * Validate rules for BUSINESS customers
+     * - Cannot have SAVING or FIXED_TERM accounts
+     * - Can have multiple CHECKING accounts
+     */
+    private Mono<AccountRequest> validateBusinessCustomerRules(AccountRequest request, CustomerResponse customer) {
+        if (request.getAccountType() == AccountType.SAVING || request.getAccountType() == AccountType.FIXED_TERM) {
+            return Mono.error(new BusinessRuleException(
+                    "Business customers can only have CHECKING accounts"));
+        }
+
+        return Mono.just(request);
+    }
+
+    /**
+     * Apply default values based on account type
+     */
+    private Mono<Account> applyAccountTypeDefaults(Account account) {
+        switch (account.getAccountType()) {
+            case SAVING:
+                // Savings: no fee, limited transactions (default 5 per month)
+                if (account.getMaxMonthlyTransactions() == null) {
+                    account.setMaxMonthlyTransactions(5);
+                }
+                account.setMaintenanceFee(java.math.BigDecimal.ZERO);
+                break;
+
+            case CHECKING:
+                // Checking: has maintenance fee (default 10), unlimited transactions
+                if (account.getMaintenanceFee() == null) {
+                    account.setMaintenanceFee(new java.math.BigDecimal("10.00"));
+                }
+                account.setMaxMonthlyTransactions(null); // Unlimited
+                break;
+
+            case FIXED_TERM:
+                // Fixed term: no fee, one transaction per month on specific day
+                account.setMaintenanceFee(java.math.BigDecimal.ZERO);
+                if (account.getTransactionDay() == null) {
+                    account.setTransactionDay(1); // Default to first day of month
+                }
+                break;
+        }
+
+        return Mono.just(account);
+    }
+
+    /**
+     * Find all accounts
+     * @return Flux of AccountResponse
+     */
+    public Flux<AccountResponse> findAll() {
+        log.debug("Finding all accounts");
+        return accountRepository.findAll()
+                .map(accountMapper::toResponse)
+                .doOnComplete(() -> log.debug("Retrieved all accounts"));
+    }
+
+    /**
+     * Find account by ID
+     * @param id the account id
+     * @return Mono of AccountResponse
+     */
+    public Mono<AccountResponse> findById(String id) {
+        log.debug("Finding account by id: {}", id);
+        return accountRepository.findById(id)
+                .switchIfEmpty(Mono.error(new AccountNotFoundException(id)))
+                .map(accountMapper::toResponse)
+                .doOnSuccess(account -> log.debug("Account found with id: {}", id));
+    }
+
+    /**
+     * Find account by account number
+     * @param accountNumber the account number
+     * @return Mono of AccountResponse
+     */
+    public Mono<AccountResponse> findByAccountNumber(String accountNumber) {
+        log.debug("Finding account by account number: {}", accountNumber);
+        return accountRepository.findByAccountNumber(accountNumber)
+                .switchIfEmpty(Mono.error(new AccountNotFoundException("accountNumber", accountNumber)))
+                .map(accountMapper::toResponse)
+                .doOnSuccess(account -> log.debug("Account found with number: {}", accountNumber));
+    }
+
+    /**
+     * Find all accounts by customer ID
+     * @param customerId the customer id
+     * @return Flux of AccountResponse
+     */
+    public Flux<AccountResponse> findByCustomerId(String customerId) {
+        log.debug("Finding accounts for customer: {}", customerId);
+        return accountRepository.findByCustomerId(customerId)
+                .map(accountMapper::toResponse)
+                .doOnComplete(() -> log.debug("Retrieved accounts for customer: {}", customerId));
+    }
+
+    /**
+     * Update account
+     * @param id the account id
+     * @param request the account request
+     * @return Mono of AccountResponse
+     */
+    public Mono<AccountResponse> update(String id, AccountRequest request) {
+        log.debug("Updating account with id: {}", id);
+
+        return accountRepository.findById(id)
+                .switchIfEmpty(Mono.error(new AccountNotFoundException(id)))
+                .flatMap(existingAccount -> {
+                    accountMapper.updateEntity(existingAccount, request);
+                    return accountRepository.save(existingAccount);
+                })
+                .doOnSuccess(account -> log.info("Account updated successfully with id: {}", id))
+                .map(accountMapper::toResponse);
+    }
+
+    /**
+     * Delete account by ID
+     * @param id the account id
+     * @return Mono of Void
+     */
+    public Mono<Void> delete(String id) {
+        log.debug("Deleting account with id: {}", id);
+
+        return accountRepository.findById(id)
+                .switchIfEmpty(Mono.error(new AccountNotFoundException(id)))
+                .flatMap(account -> accountRepository.deleteById(id)
+                        .doOnSuccess(v -> log.info("Account deleted successfully with id: {}", id)));
+    }
+}
