@@ -5,6 +5,7 @@ import com.bank.account.model.dto.AccountResponse;
 import com.bank.account.model.entity.Account;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -20,7 +21,8 @@ public class AccountMapper {
      * @return Account entity
      */
     public Account toEntity(AccountRequest request) {
-        return Account.builder()
+        LocalDateTime now = LocalDateTime.now();
+        Account account = Account.builder()
                 .accountNumber(generateAccountNumber())
                 .accountType(request.getAccountType())
                 .customerId(request.getCustomerId())
@@ -31,8 +33,25 @@ public class AccountMapper {
                 .transactionDay(request.getTransactionDay())
                 .holders(request.getHolders() != null ? request.getHolders() : new java.util.ArrayList<>())
                 .authorizedSigners(request.getAuthorizedSigners() != null ? request.getAuthorizedSigners() : new java.util.ArrayList<>())
-                .createdAt(LocalDateTime.now())
+                .minimumOpeningAmount(request.getMinimumOpeningAmount() != null
+                        ? request.getMinimumOpeningAmount()
+                        : BigDecimal.ZERO)
+                .freeTransactionsPerMonth(request.getFreeTransactionsPerMonth() != null
+                        ? request.getFreeTransactionsPerMonth()
+                        : 5)
+                .commissionPerTransaction(request.getCommissionPerTransaction() != null
+                        ? request.getCommissionPerTransaction()
+                        : new BigDecimal("2.00"))
+                .currentMonthTransactionCount(0)
+                .lastTransactionMonth(now.getMonthValue())
+                .lastTransactionYear(now.getYear())
+                .minimumDailyAverage(request.getMinimumDailyAverage())
+                .createdAt(now)
                 .build();
+
+        configureAccountByType(account);
+
+        return account;
     }
 
     /**
@@ -53,6 +72,12 @@ public class AccountMapper {
                 .transactionDay(account.getTransactionDay())
                 .holders(account.getHolders())
                 .authorizedSigners(account.getAuthorizedSigners())
+                .minimumOpeningAmount(account.getMinimumOpeningAmount())
+                .freeTransactionsPerMonth(account.getFreeTransactionsPerMonth())
+                .commissionPerTransaction(account.getCommissionPerTransaction())
+                .currentMonthTransactionCount(account.getCurrentMonthTransactionCount())
+                .nextTransactionCommission(account.getNextTransactionCommission())
+                .minimumDailyAverage(account.getMinimumDailyAverage())
                 .createdAt(account.getCreatedAt())
                 .updatedAt(account.getUpdatedAt())
                 .build();
@@ -80,4 +105,23 @@ public class AccountMapper {
         // Format: ACC-XXXXXXXXXX (10 random digits)
         return "ACC-" + UUID.randomUUID().toString().replace("-", "").substring(0, 10).toUpperCase();
     }
+
+    /**
+     * Configure account-specific fields based on type.
+     * @param account the account to configure
+     */
+    private void configureAccountByType(Account account) {
+        switch (account.getAccountType()) {
+            case SAVING:
+                // Standard saving account
+                break;
+            case CHECKING:
+                account.setMaintenanceFee(new BigDecimal("10.00"));
+                break;
+            case FIXED_TERM:
+                account.setTransactionDay(1); // Monthly on day 1
+                break;
+        }
+    }
+
 }

@@ -32,4 +32,33 @@ public class AccountResponse {
     private List<String> authorizedSigners;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    /**
+     * Minimum opening amount.
+     */
+    private BigDecimal minimumOpeningAmount;
+
+    /**
+     * Free transactions per month.
+     */
+    private Integer freeTransactionsPerMonth;
+
+    /**
+     * Commission per transaction after free limit.
+     */
+    private BigDecimal commissionPerTransaction;
+
+    /**
+     * Current month transaction count.
+     */
+    private Integer currentMonthTransactionCount;
+
+    /**
+     * Next transaction commission.
+     */
+    private BigDecimal nextTransactionCommission;
+
+    /**
+     * Minimum daily average balance (VIP accounts).
+     */
+    private BigDecimal minimumDailyAverage;
 }

@@ -83,6 +83,48 @@ public class Account {
     @Builder.Default
     private List<String> authorizedSigners = new ArrayList<>();
 
+    /**
+     * Minimum opening amount required for this account.
+     * Can be zero for standard accounts
+     */
+    private BigDecimal minimumOpeningAmount = BigDecimal.ZERO;
+
+    /**
+     * Number of free transactions per month (deposits + withdrawals).
+     * Default: 5 transactions
+     */
+    private Integer freeTransactionsPerMonth = 5;
+
+    /**
+     * Commission charged per transaction after free limit.
+     * Default: 2.00
+     */
+    private BigDecimal commissionPerTransaction = new BigDecimal("2.00");
+
+    /**
+     * Transaction count for current month.
+     * Resets every month
+     */
+    private Integer currentMonthTransactionCount = 0;
+
+    /**
+     * Month of last transaction (1-12).
+     * Used to reset counter each month
+     */
+    private Integer lastTransactionMonth;
+
+    /**
+     * Year of last transaction.
+     * Used with month to reset counter
+     */
+    private Integer lastTransactionYear;
+
+    /**
+     * Minimum daily average balance required (for VIP accounts).
+     * Null for standard accounts
+     */
+    private BigDecimal minimumDailyAverage;
+
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
@@ -103,5 +145,52 @@ public class Account {
             return false;
         }
         return currentMonthTransactions >= maxMonthlyTransactions;
+    }
+
+    /**
+     * Check if account has free transactions available.
+     * @return true if under free transaction limit
+     */
+    public boolean hasFreeTransactionsAvailable() {
+        return currentMonthTransactionCount < freeTransactionsPerMonth;
+    }
+
+    /**
+     * Get commission for next transaction.
+     * @return commission amount (0 if free transactions available)
+     */
+    public BigDecimal getNextTransactionCommission() {
+        return hasFreeTransactionsAvailable()
+                ? BigDecimal.ZERO
+                : commissionPerTransaction;
+    }
+
+    /**
+     * Increment transaction counter.
+     * Resets counter if in new month
+     * @param currentMonth current month (1-12)
+     * @param currentYear current year
+     */
+    public void incrementTransactionCount(int currentMonth, int currentYear) {
+        // Reset counter if new month
+        if (lastTransactionMonth == null ||
+                lastTransactionMonth != currentMonth ||
+                lastTransactionYear != currentYear) {
+            this.currentMonthTransactionCount = 0;
+            this.lastTransactionMonth = currentMonth;
+            this.lastTransactionYear = currentYear;
+        }
+
+        this.currentMonthTransactionCount++;
+    }
+
+    /**
+     * Check if account is VIP type.
+     * @return true if PERSONAL_VIP
+     */
+    public boolean isVipAccount() {
+        // Esta lógica depende de cómo guardes el tipo de cuenta
+        // Podrías agregar un campo accountSubtype
+        return false; // Implementar según diseño
     }
 }

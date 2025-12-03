@@ -41,4 +41,24 @@ public class AccountRequest {
     private List<String> holders;
 
     private List<String> authorizedSigners;
+
+    /**
+     * Minimum opening amount (optional, default 0).
+     */
+    private BigDecimal minimumOpeningAmount;
+
+    /**
+     * Free transactions per month (optional, default 5).
+     */
+    private Integer freeTransactionsPerMonth;
+
+    /**
+     * Commission per transaction (optional, default 2.00).
+     */
+    private BigDecimal commissionPerTransaction;
+
+    /**
+     * Minimum daily average balance for VIP accounts (optional).
+     */
+    private BigDecimal minimumDailyAverage;
 }

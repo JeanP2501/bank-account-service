@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * REST Controller for Account operations
  * Provides endpoints for CRUD operations on bank accounts
@@ -113,5 +116,16 @@ public class AccountController {
         log.info("DELETE /api/accounts/{} - Deleting account", id);
         return accountService.delete(id)
                 .then(Mono.just(ResponseEntity.noContent().<Void>build()));
+    }
+
+    /**
+     * Get next transaction commission for account.
+     * @param id account id
+     * @return commission amount
+     */
+    @GetMapping("/{id}/commission")
+    public Mono<Map<String, Object>> getNextCommission(@PathVariable String id) {
+        log.debug("Getting next transaction commission for account: {}", id);
+        return accountService.getNextTransactionComission(id);
     }
 }

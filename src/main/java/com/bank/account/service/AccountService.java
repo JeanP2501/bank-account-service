@@ -18,6 +18,10 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Service layer for Account operations
  * Implements business logic and rules for account management
@@ -41,7 +45,30 @@ public class AccountService {
 
         return customerClient.getCustomerById(request.getCustomerId())
                 .switchIfEmpty(Mono.error(new CustomerNotFoundException(request.getCustomerId())))
-                .flatMap(customer -> validateBusinessRules(request, customer))
+                .flatMap(customer -> {
+                    Mono<AccountRequest> accountValidated = validateBusinessRules(request, customer);
+                    // Validate initial balance meets minimum
+                    BigDecimal initialBalance = request.getInitialBalance() != null
+                            ? request.getInitialBalance()
+                            : BigDecimal.ZERO;
+
+                    BigDecimal minimumOpening = request.getMinimumOpeningAmount() != null
+                            ? request.getMinimumOpeningAmount()
+                            : BigDecimal.ZERO;
+
+                    if (initialBalance.compareTo(minimumOpening) < 0) {
+                        return Mono.error(new BusinessRuleException(
+                                String.format("Initial balance %.2f is less than minimum opening amount %.2f",
+                                        initialBalance, minimumOpening)));
+                    }
+                    validateAccountRules(customer, request)
+                        .then(Mono.defer(() -> {
+                            Account account = accountMapper.toEntity(request);
+                            return accountRepository.save(account);
+                        }));
+
+                    return accountValidated;
+                })
                 .map(accountMapper::toEntity)
                 .flatMap(account -> applyAccountTypeDefaults(account))
                 .flatMap(accountRepository::save)
@@ -60,6 +87,36 @@ public class AccountService {
         } else {
             return validateBusinessCustomerRules(request, customer);
         }
+    }
+
+    /**
+     * Validate account creation rules based on customer type.
+     * @param customer the customer
+     * @param request the account request
+     * @return Mono<Void> empty if valid, error if invalid
+     */
+    private Mono<Void> validateAccountRules(CustomerResponse customer, AccountRequest request) {
+        // VIP customers creating saving accounts need credit card
+        if (CustomerType.PERSONAL_VIP == customer.getCustomerType() &&
+            AccountType.SAVING == request.getAccountType()) {
+
+            if (!Boolean.TRUE.equals(customer.getHasCreditCard())) {
+                return Mono.error(new BusinessRuleException(
+                        "VIP saving accounts require an active credit card"));
+            }
+        }
+
+        // PYME customers creating checking accounts need credit card
+        if (CustomerType.BUSINESS_PYME == customer.getCustomerType() &&
+            AccountType.CHECKING == request.getAccountType()) {
+
+            if (!Boolean.TRUE.equals(customer.getHasCreditCard())) {
+                return Mono.error(new BusinessRuleException(
+                        "PYME checking accounts require an active credit card"));
+            }
+        }
+
+        return Mono.empty();
     }
 
     /**
@@ -212,5 +269,22 @@ public class AccountService {
                 .switchIfEmpty(Mono.error(new AccountNotFoundException(id)))
                 .flatMap(account -> accountRepository.deleteById(id)
                         .doOnSuccess(v -> log.info("Account deleted successfully with id: {}", id)));
+    }
+
+    public Mono<Map<String, Object>> getNextTransactionComission(String id) {
+        return accountRepository.findById(id)
+                .map(account -> {
+                    Map<String, Object> response = new HashMap<>();
+                    response.put("accountId", id);
+                    response.put("currentMonthTransactions",
+                            account.getCurrentMonthTransactionCount());
+                    response.put("freeTransactionsPerMonth",
+                            account.getFreeTransactionsPerMonth());
+                    response.put("nextTransactionCommission",
+                            account.getNextTransactionCommission());
+                    response.put("hasFreeTransactionsAvailable",
+                            account.hasFreeTransactionsAvailable());
+                    return response;
+                });
     }
 }
