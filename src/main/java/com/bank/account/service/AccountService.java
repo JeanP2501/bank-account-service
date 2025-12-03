@@ -34,6 +34,7 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
     private final CustomerClient customerClient;
+    private final CommissionService commissionService;
 
     /**
      * Create a new account with business rule validations
@@ -286,5 +287,22 @@ public class AccountService {
                             account.hasFreeTransactionsAvailable());
                     return response;
                 });
+    }
+
+    public Mono<Map<String, Object>> calculateAndApplyComission(String id) {
+        return commissionService.calculateAndApplyCommission(id)
+                .flatMap(commission ->
+                        accountRepository.findById(id)
+                                .map(account -> {
+                                    Map<String, Object> response = new HashMap<>();
+                                    response.put("accountId", id);
+                                    response.put("commission", commission);
+                                    response.put("currentMonthTransactions",
+                                            account.getCurrentMonthTransactionCount());
+                                    response.put("freeTransactionsPerMonth",
+                                            account.getFreeTransactionsPerMonth());
+                                    return response;
+                                })
+                );
     }
 }

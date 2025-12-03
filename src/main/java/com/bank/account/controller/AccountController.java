@@ -128,4 +128,17 @@ public class AccountController {
         log.debug("Getting next transaction commission for account: {}", id);
         return accountService.getNextTransactionComission(id);
     }
+
+    /**
+     * Calculate and apply commission for next transaction.
+     * This increments the transaction counter and returns the commission.
+     *
+     * @param id account id
+     * @return commission details
+     */
+    @PostMapping("/{id}/calculate-commission")
+    public Mono<Map<String, Object>> calculateCommission(@PathVariable String id) {
+        log.debug("Calculating commission for account: {}", id);
+        return accountService.calculateAndApplyComission(id);
+    }
 }
