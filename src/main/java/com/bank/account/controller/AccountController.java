@@ -141,4 +141,15 @@ public class AccountController {
         log.debug("Calculating commission for account: {}", id);
         return accountService.calculateAndApplyComission(id);
     }
+
+    /**
+     * Test endpoint delayed by circuit breaker
+     * @return a default text
+     */
+    @GetMapping("/customercb")
+    public Mono<ResponseEntity<String>> getDelayedResult() {
+        return accountService.getDelayedResult()
+                .map(ResponseEntity::ok);
+    }
+
 }
