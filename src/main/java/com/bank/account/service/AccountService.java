@@ -8,20 +8,22 @@ import com.bank.account.mapper.AccountMapper;
 import com.bank.account.model.dto.AccountRequest;
 import com.bank.account.model.dto.AccountResponse;
 import com.bank.account.model.dto.CustomerResponse;
+import com.bank.account.model.dto.EntityActionEvent;
 import com.bank.account.model.entity.Account;
 import com.bank.account.model.enums.AccountType;
 import com.bank.account.model.enums.CustomerType;
 import com.bank.account.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Service layer for Account operations
@@ -36,6 +38,7 @@ public class AccountService {
     private final AccountMapper accountMapper;
     private final CustomerClient customerClient;
     private final CommissionService commissionService;
+    private final KafkaProducerService kafkaProducerService;
 
     /**
      * Create a new account with business rule validations
@@ -66,7 +69,21 @@ public class AccountService {
                     validateAccountRules(customer, request)
                         .then(Mono.defer(() -> {
                             Account account = accountMapper.toEntity(request);
-                            return accountRepository.save(account);
+                            return accountRepository.save(account)
+                                    .flatMap(savedCustomer -> {
+                                        // Publicar evento después de guardar exitosamente
+                                        EntityActionEvent event = EntityActionEvent.builder()
+                                                .eventId(UUID.randomUUID().toString())
+                                                .eventType("ACCOUNT_CREATED")
+                                                .entityType(account.getClass().getSimpleName())
+                                                .payload(account)
+                                                .timestamp(LocalDateTime.now())
+                                                .build();
+                                        return kafkaProducerService.sendEvent(savedCustomer.getId(), event)
+                                                .doOnSuccess(v -> log.info("Customer created and event published: {}", account.getId()))
+                                                .doOnError(e -> log.error("Error publishing event: {}", e.getMessage()))
+                                                .thenReturn(savedCustomer);
+                                    });
                         }));
 
                     return accountValidated;
@@ -74,6 +91,20 @@ public class AccountService {
                 .map(accountMapper::toEntity)
                 .flatMap(account -> applyAccountTypeDefaults(account))
                 .flatMap(accountRepository::save)
+                .flatMap(savedAccount -> {
+                    // Publicar evento después de guardar exitosamente
+                    EntityActionEvent event = EntityActionEvent.builder()
+                            .eventId(UUID.randomUUID().toString())
+                            .eventType("ACCOUNT_CREATED")
+                            .entityType(savedAccount.getClass().getSimpleName())
+                            .payload(savedAccount)
+                            .timestamp(LocalDateTime.now())
+                            .build();
+                    return kafkaProducerService.sendEvent(savedAccount.getId(), event)
+                            .doOnSuccess(v -> log.info("Customer created and event published: {}", savedAccount.getId()))
+                            .doOnError(e -> log.error("Error publishing event: {}", e.getMessage()))
+                            .thenReturn(savedAccount);
+                })
                 .doOnSuccess(account -> log.info("Account created successfully: {}", account.getAccountNumber()))
                 .map(accountMapper::toResponse);
     }
@@ -255,6 +286,20 @@ public class AccountService {
                     accountMapper.updateEntity(existingAccount, request);
                     return accountRepository.save(existingAccount);
                 })
+                .flatMap(updatedAccount -> {
+                    // Publicar evento después de actualizar exitosamente
+                    EntityActionEvent event = EntityActionEvent.builder()
+                            .eventId(UUID.randomUUID().toString())
+                            .eventType("ACCOUNT_UPDATED")
+                            .entityType(updatedAccount.getClass().getSimpleName())
+                            .timestamp(LocalDateTime.now())
+                            .payload(updatedAccount)
+                            .build();
+                    return kafkaProducerService.sendEvent(updatedAccount.getId(), event)
+                            .doOnSuccess(v -> log.info("Customer updated and event published: {}", id))
+                            .doOnError(e -> log.error("Error publishing event: {}", e.getMessage()))
+                            .thenReturn(updatedAccount);
+                })
                 .doOnSuccess(account -> log.info("Account updated successfully with id: {}", id))
                 .map(accountMapper::toResponse);
     }
@@ -270,7 +315,19 @@ public class AccountService {
         return accountRepository.findById(id)
                 .switchIfEmpty(Mono.error(new AccountNotFoundException(id)))
                 .flatMap(account -> accountRepository.deleteById(id)
-                        .doOnSuccess(v -> log.info("Account deleted successfully with id: {}", id)));
+                        .then(Mono.defer(() -> {
+                                    // Publicar evento después de eliminar exitosamente
+                                    EntityActionEvent event = EntityActionEvent.builder()
+                                            .eventId(UUID.randomUUID().toString())
+                                            .eventType("CUSTOMER_DELETED")
+                                            .entityType(account.getClass().getSimpleName())
+                                            .timestamp(LocalDateTime.now())
+                                            .payload(account)
+                                            .build();
+                                    return kafkaProducerService.sendEvent(id, event)
+                                            .doOnSuccess(v -> log.info("Account deleted successfully with id: {}", id))
+                                            .doOnError(e -> log.error("Error publishing event: {}", e.getMessage()));
+                        })));
     }
 
     public Mono<Map<String, Object>> getNextTransactionComission(String id) {
