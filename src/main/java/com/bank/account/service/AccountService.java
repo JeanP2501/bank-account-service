@@ -101,11 +101,10 @@ public class AccountService {
                             .timestamp(LocalDateTime.now())
                             .build();
                     return kafkaProducerService.sendEvent(savedAccount.getId(), event)
-                            .doOnSuccess(v -> log.info("Customer created and event published: {}", savedAccount.getId()))
+                            .doOnSuccess(account -> log.info("Account created successfully: {}", savedAccount.getId()))
                             .doOnError(e -> log.error("Error publishing event: {}", e.getMessage()))
                             .thenReturn(savedAccount);
                 })
-                .doOnSuccess(account -> log.info("Account created successfully: {}", account.getAccountNumber()))
                 .map(accountMapper::toResponse);
     }
 
@@ -296,11 +295,10 @@ public class AccountService {
                             .payload(updatedAccount)
                             .build();
                     return kafkaProducerService.sendEvent(updatedAccount.getId(), event)
-                            .doOnSuccess(v -> log.info("Customer updated and event published: {}", id))
+                            .doOnSuccess(account -> log.info("Account updated successfully with id: {}", id))
                             .doOnError(e -> log.error("Error publishing event: {}", e.getMessage()))
                             .thenReturn(updatedAccount);
                 })
-                .doOnSuccess(account -> log.info("Account updated successfully with id: {}", id))
                 .map(accountMapper::toResponse);
     }
 
